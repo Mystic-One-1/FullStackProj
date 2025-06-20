@@ -1,0 +1,42 @@
+.profile-container {
+  background: url('https://images.unsplash.com/photo-1581905764498-06a4f1f93213?fit=crop&w=1600&q=80') center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffffff;
+}
+
+.profile-card {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 2rem 3rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+  backdrop-filter: blur(6px);
+  border: 1px solid #ff3c3c50;
+}
+
+.profile-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #e50914;
+  text-shadow: 0 0 5px #e50914aa;
+}
+
+.label {
+  font-weight: bold;
+  color: #ffce00;
+}
+
+.profile-loading {
+  padding: 2rem;
+  font-size: 1.2rem;
+  text-align: center;
+  color: white;
+  background-color: black;
+}
