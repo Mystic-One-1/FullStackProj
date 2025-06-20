@@ -1,17 +1,65 @@
-.landing-container {
-  text-align: center;
+.landing {
   padding: 2rem;
+  text-align: center;
+  background-color: #111;
+  color: #fff;
+  min-height: 100vh;
 }
 
-.landing-buttons button {
-  margin: 1rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
+.title {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
 }
 
-.plans-section, .trending-section {
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.buttons {
+  margin-bottom: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  margin: 0 1rem;
+  padding: 0.8rem 1.5rem;
+  background: crimson;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.section-title {
   margin-top: 2rem;
-  text-align: left;
-  padding: 1rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid crimson;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.movie-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.movie-card {
+  background: #222;
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: 150px;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.movie-card p {
+  margin-top: 0.5rem;
+  font-weight: bold;
 }

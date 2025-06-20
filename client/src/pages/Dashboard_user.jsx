@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
 import API from '../services/api';
-import './Home.css';
+import './Dashboard_user.css';
 import ThemeToggle from '../components/ThemeToggle';
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext); // ✅ get logout
+  const navigate = useNavigate(); // for redirect
 
   const fetchMovies = async () => {
     try {
@@ -26,12 +28,20 @@ const Home = () => {
     fetchMovies();
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/'); // Redirect to landing page
+  };
+
   return (
     <div className="home-container">
       <ThemeToggle />
       <a href="/profile" style={{ color: 'skyblue', marginRight: '1rem' }}>
         My Profile
       </a>
+      <button onClick={handleLogout} style={{ marginLeft: '1rem' }}>
+        🚪 Logout
+      </button>
 
       {user && <h2 style={{ marginBottom: '1rem' }}>🎬 Welcome, {user.name}!</h2>}
       {!user && <h2 style={{ marginBottom: '1rem' }}>🎬 Movie Catalog</h2>}
@@ -55,13 +65,20 @@ const Home = () => {
               src={movie.posterUrl}
               alt={movie.title}
               onError={(e) =>
-                (e.target.src = 'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg?cs=srgb&dl=pexels-pixabay-56866.jpg&fm=jpg')
+                (e.target.src =
+                  'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg?cs=srgb&dl=pexels-pixabay-56866.jpg&fm=jpg')
               }
             />
             <div className="movie-info">
-              <h3>{movie.title} ({movie.year})</h3>
-              <p><strong>Genre:</strong> {movie.genre}</p>
-              <p><strong>Rating:</strong> {movie.rating}</p>
+              <h3>
+                {movie.title} ({movie.year})
+              </h3>
+              <p>
+                <strong>Genre:</strong> {movie.genre}
+              </p>
+              <p>
+                <strong>Rating:</strong> {movie.rating}
+              </p>
               <p>{movie.synopsis}</p>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import API from '../services/api'; // ✅ using axios instance with token handling
-
+import './Login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

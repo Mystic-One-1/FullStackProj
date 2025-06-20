@@ -1,0 +1,80 @@
+/* Fullscreen cinematic background */
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #0f0f0f, #1f1f1f);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Center the login form */
+form {
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid #444;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 10% auto;
+  padding: 3rem 2rem;
+  box-shadow: 0 0 50px rgba(255, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1s ease-out;
+}
+
+/* Heading style */
+form h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #e50914;
+  letter-spacing: 1px;
+}
+
+/* Input fields */
+form input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+form input:focus {
+  background: #444;
+  outline: none;
+  box-shadow: 0 0 0 2px #e50914;
+}
+
+/* Button */
+form button {
+  width: 100%;
+  padding: 0.9rem;
+  background: #e50914;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: #f6121d;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,22 +1,42 @@
-// src/pages/Landing.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Landing.css'; // Optional: add some public styles
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Landing.css';
+import { AuthContext } from '../context/AuthContext';
 
 const Landing = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const trendingMovies = [
+    { title: 'Stranger Things', poster: 'https://i.imgur.com/ZXBtVw7.jpg' },
+    { title: 'Breaking Bad', poster: 'https://i.imgur.com/ZmC1f5N.jpg' },
+    { title: 'The Dark Knight', poster: 'https://i.imgur.com/3fJ1P48.jpg' },
+  ];
+
   return (
-    <div className="landing-container">
-      <h1>🍿 Welcome to MovieHub!</h1>
-      <p>Stream your favorite movies with flexible plans:</p>
+    <div className="landing">
+      <h1 className="title">🎬 Welcome to StreamVerse</h1>
+      <p className="subtitle">Binge your favorite movies & shows</p>
 
-      <ul>
-        <li><strong>Basic:</strong> 480p quality</li>
-        <li><strong>Standard:</strong> 720p HD</li>
-        <li><strong>Premium:</strong> 1080p + multi-device support</li>
-      </ul>
+      <div className="buttons">
+        <Link to="/login" className="btn">Login</Link>
+        <Link to="/register" className="btn">Register</Link>
+      </div>
 
-      <div style={{ marginTop: '1rem' }}>
-        <Link to="/login">🔐 Sign In</Link> | <Link to="/register">📝 Register</Link>
+      <h2 className="section-title">🔥 Trending Now</h2>
+      <div className="movie-grid">
+        {trendingMovies.map((movie, i) => (
+          <div key={i} className="movie-card">
+            <img src={movie.poster} alt={movie.title} />
+            <p>{movie.title}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
