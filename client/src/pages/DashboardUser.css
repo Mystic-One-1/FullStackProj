@@ -7,7 +7,10 @@
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
+
 
 h2 {
   text-align: center;
@@ -21,6 +24,13 @@ h2 {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 2rem;
   padding: 1rem 0;
+}
+
+/* Ensure grid ends with breathing space */
+.movie-grid::after {
+  content: '';
+  display: block;
+  height: 2rem;
 }
 
 .movie-card {
@@ -51,6 +61,7 @@ h2 {
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .movie-info h3 {
@@ -68,6 +79,22 @@ h2 {
 
 .movie-info strong {
   color: #ffffff;
+}
+
+.movie-info button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.movie-info button:hover {
+  background-color: #b00610;
 }
 
 @media (max-width: 768px) {
