@@ -4,7 +4,7 @@ import './DashboardUser.css';
 import ThemeToggle from '../components/ThemeToggle';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar'; // ✅ import Navbar
+import Navbar from '../components/Navbar';
 
 const DashboardUser = () => {
   const [movies, setMovies] = useState([]);
@@ -25,13 +25,23 @@ const DashboardUser = () => {
     }
   };
 
+  const addToWatchlist = async (movieId) => {
+    try {
+      await API.post(`/users/watchlist/add/${movieId}`);
+      alert('🎉 Added to Watchlist');
+    } catch (err) {
+      alert('❌ Failed to add to watchlist');
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchMovies();
   }, []);
 
   return (
     <div className="home-container">
-      <Navbar /> {/* ✅ Add navbar at top */}
+      <Navbar />
       <ThemeToggle />
 
       {user && <h2 style={{ marginBottom: '1rem' }}>🎬 Welcome, {user.name}!</h2>}
@@ -48,25 +58,37 @@ const DashboardUser = () => {
           <div
             className="movie-card"
             key={movie._id}
-            onClick={() => (window.location.href = `/movie/${movie._id}`)}
             style={{ cursor: 'pointer' }}
           >
             <img
               className="movie-poster"
               src={movie.posterUrl}
               alt={movie.title}
+              onClick={() => navigate(`/movie/${movie._id}`)}
               onError={(e) =>
                 (e.target.src =
                   'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg')
               }
             />
             <div className="movie-info">
-              <h3>
-                {movie.title} ({movie.year})
-              </h3>
+              <h3>{movie.title} ({movie.year})</h3>
               <p><strong>Genre:</strong> {movie.genre}</p>
               <p><strong>Rating:</strong> {movie.rating}</p>
               <p>{movie.synopsis}</p>
+              <button
+                onClick={() => addToWatchlist(movie._id)}
+                style={{
+                  marginTop: '0.5rem',
+                  padding: '0.3rem 1rem',
+                  cursor: 'pointer',
+                  backgroundColor: '#444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px'
+                }}
+              >
+                ➕ Add to Watchlist
+              </button>
             </div>
           </div>
         ))}

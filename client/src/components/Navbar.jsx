@@ -22,6 +22,7 @@ const Navbar = () => {
         {user ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/watchlist">📺 My Watchlist</Link>
             <Link to="/profile">Profile</Link>
             <button onClick={handleLogout} className="logout-btn">Logout</button>
           </>

@@ -9,6 +9,8 @@ import MoviePlayer from './pages/MoviePlayer';
 import Profile from './pages/Profile';
 import Landing from './pages/Landing';
 import AdminLogin from './pages/AdminLogin';
+import Watchlist from './pages/Watchlist'; // ✅ Add this line
+
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
@@ -25,7 +27,14 @@ function App() {
             <Route path="/movie/:id" element={<MoviePlayer />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin-login" element={<AdminLogin />} />
-            {/* ✅ Protected user dashboard */}
+            <Route
+              path="/watchlist"
+              element={
+                <ProtectedRoute>
+                  <Watchlist />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={
@@ -34,8 +43,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* 🔐 Admin dashboard route */}
             <Route
               path="/admin"
               element={

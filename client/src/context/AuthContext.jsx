@@ -1,3 +1,4 @@
+// src/context/AuthContext.js
 import React, { createContext, useEffect, useState } from 'react';
 import API from '../services/api';
 
@@ -13,6 +14,7 @@ export const AuthProvider = ({ children }) => {
 
     if (storedToken) {
       setToken(storedToken);
+
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
@@ -24,8 +26,11 @@ export const AuthProvider = ({ children }) => {
           });
           setUser(res.data.user); // Sync fresh profile
         } catch (err) {
-          console.log('Not logged in or token expired');
+          console.log('Token expired or not valid');
           setUser(null);
+          setToken(null);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('user');
         }
       };
 
@@ -33,17 +38,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Logout Function
   const logout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
     setUser(null);
     setToken(null);
-    window.location.href = '/'; // Or use navigate('/login') if you're inside a component
+    window.location.href = '/'; // Or navigate('/login')
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, setUser, logout }}>
+    <AuthContext.Provider value={{ user, setUser, token, setToken, logout }}>
       {children}
     </AuthContext.Provider>
   );
