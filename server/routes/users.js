@@ -82,7 +82,11 @@ router.get('/:id', verifyToken, async (req, res) => {
     if (req.user.role !== 'admin') return res.status(403).json({ msg: 'Access denied' });
 
     const user = await User.findById(req.params.id).select('-password');
-    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    if (!user || user.role === 'admin') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
     res.json(user);
   } catch (err) {
     res.status(500).json({ msg: 'Server error' });
@@ -112,6 +116,32 @@ router.delete('/:id', verifyToken, async (req, res) => {
 
     await User.findByIdAndDelete(req.params.id);
     res.json({ msg: 'User deleted permanently' });
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// ✅ Update user's subscription plan (admin only)
+router.patch('/plan/:id', verifyToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ msg: 'Access denied' });
+
+    const { plan } = req.body;
+    const validPlans = ['Basic', 'Standard', 'Premium'];
+
+    if (!validPlans.includes(plan)) {
+      return res.status(400).json({ msg: 'Invalid subscription plan' });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { subscriptionPlan: plan },
+      { new: true }
+    ).select('-password');
+
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    res.json({ msg: 'Plan updated successfully', user });
   } catch (err) {
     res.status(500).json({ msg: 'Server error' });
   }

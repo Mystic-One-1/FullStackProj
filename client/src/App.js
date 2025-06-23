@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ViewUsers from './pages/ViewUsers';
+
 import Dashboard from './pages/DashboardUser';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -11,6 +11,8 @@ import Landing from './pages/Landing';
 import AdminLogin from './pages/AdminLogin';
 import Watchlist from './pages/Watchlist';
 import UserDetails from './pages/UserDetails'; 
+import UserSearch from './pages/UserSearch'; // ✅ Import search component
+
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
@@ -52,14 +54,18 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            {/* ✅ Admin user search page */}
             <Route
               path="/admin/users"
               element={
                 <ProtectedRoute adminOnly={true}>
-                  <ViewUsers />
+                  <UserSearch />
                 </ProtectedRoute>
               }
             />
+
+            {/* ✅ Admin user detail page */}
             <Route
               path="/admin/users/:id"
               element={

@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema(
     },
     isBanned: {
       type: Boolean,
-      default: false, // ✅ new field for ban/unban logic
+      default: false, 
     },
     watchHistory: [
       {

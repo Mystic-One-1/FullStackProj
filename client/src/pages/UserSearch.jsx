@@ -14,21 +14,27 @@ const UserSearch = () => {
     e.preventDefault();
     setError('');
 
-    if (!userId.trim()) {
+    const trimmedId = userId.trim();
+    if (!trimmedId) {
       setError('Please enter a User ID');
       return;
     }
 
     try {
-      const res = await API.get(`/users/${userId}`, {
+      const res = await API.get(`/users/${trimmedId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (res.data && res.data.user) {
-        navigate(`/admin/users/${userId}`); // ✅ Redirect to detailed user page
-      } else {
+        if (res.data && res.data._id) {
+        if (res.data.role === 'admin') {
+            setError('❌ Admin accounts cannot be accessed here.');
+        } else {
+            navigate(`/admin/users/${trimmedId}`);
+        }
+        } else {
         setError('User not found');
-      }
+        }
+
     } catch (err) {
       console.error(err);
       setError('User not found or error occurred');

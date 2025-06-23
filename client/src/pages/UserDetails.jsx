@@ -77,6 +77,19 @@ const UserDetails = () => {
     });
   };
 
+  const handlePlanChange = async (e) => {
+    const newPlan = e.target.value;
+    try {
+      await API.patch(`/users/plan/${id}`, { plan: newPlan }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success(`✅ Plan updated to ${newPlan}`);
+      fetchUser();
+    } catch (err) {
+      toast.error('❌ Failed to update plan');
+    }
+  };
+
   useEffect(() => {
     fetchUser();
   }, [id]);
@@ -90,7 +103,17 @@ const UserDetails = () => {
         <p><strong>Name:</strong> {user.name}</p>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Role:</strong> {user.role}</p>
-        <p><strong>Plan:</strong> {user.subscriptionPlan}</p>
+        <p><strong>Plan:</strong>
+          <select
+            value={user.subscriptionPlan}
+            onChange={handlePlanChange}
+            className="plan-dropdown"
+          >
+            <option value="Basic">Basic</option>
+            <option value="Standard">Standard</option>
+            <option value="Premium">Premium</option>
+          </select>
+        </p>
         <p><strong>Status:</strong> {user.banned ? '🚫 Banned' : '✅ Active'}</p>
         <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
       </div>
