@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import API from '../services/api'; // ✅ using axios instance with token handling
+import API from '../services/api';
 import './Login.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,17 +17,19 @@ const Login = () => {
       localStorage.setItem('accessToken', res.data.accessToken);
       localStorage.setItem('user', JSON.stringify(res.data.user));
 
-      alert('Login successful!');
+      toast.success('✅ Login successful! Redirecting...');
 
-      // Optional: Redirect based on role
+      // Redirect after short delay
       const role = res.data.user.role;
-      if (role === 'admin') {
-        window.location.href = '/admin';
-      } else {
-        window.location.href = '/';
-      }
+      setTimeout(() => {
+        if (role === 'admin') {
+          window.location.href = '/admin';
+        } else {
+          window.location.href = '/dashboard';
+        }
+      }, 1000);
     } catch (err) {
-      alert(err?.response?.data?.msg || 'Login failed');
+      toast.error(err?.response?.data?.msg || '❌ Login failed');
     }
   };
 
