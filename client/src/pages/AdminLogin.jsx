@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import API from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
+
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +26,7 @@ const AdminLogin = () => {
       localStorage.setItem('user', JSON.stringify(res.data.user));
       setUser(res.data.user); // ✅ this triggers ProtectedRoute correctly
 
-      alert('Admin login successful!');
+      toast.success('✅ Admin Login successful!');
       navigate('/admin');
     } catch (err) {
       alert(err?.response?.data?.msg || 'Login failed');

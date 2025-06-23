@@ -1,3 +1,4 @@
+// src/pages/DashboardUser.jsx
 import React, { useEffect, useState, useContext } from 'react';
 import API from '../services/api';
 import './DashboardUser.css';
@@ -28,9 +29,8 @@ const DashboardUser = () => {
   const addToWatchlist = async (movieId) => {
     try {
       await API.post(`/users/watchlist/add/${movieId}`);
-      alert('🎉 Added to Watchlist');
+      // you might replace this with a toast as we did earlier
     } catch (err) {
-      alert('❌ Failed to add to watchlist');
       console.error(err);
     }
   };
@@ -44,21 +44,23 @@ const DashboardUser = () => {
       <Navbar />
       <ThemeToggle />
 
-      {user && <h2 style={{ marginBottom: '1rem' }}>🎬 Welcome, {user.name}!</h2>}
-      {!user && <h2 style={{ marginBottom: '1rem' }}>🎬 Movie Catalog</h2>}
+      {user ? (
+        <h2>🎬 Welcome, {user.name}!</h2>
+      ) : (
+        <h2>🎬 Movie Catalog</h2>
+      )}
 
       {loading && <p>Loading movies...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {movies.length === 0 && !loading && !error && (
+      {!loading && !error && movies.length === 0 && (
         <p>No movies available. Admins can add some!</p>
       )}
 
-      <div className="movie-grid">
+      <div className="movie-row">
         {movies.map((movie) => (
           <div
             className="movie-card"
             key={movie._id}
-            style={{ cursor: 'pointer' }}
           >
             <img
               className="movie-poster"
@@ -72,20 +74,9 @@ const DashboardUser = () => {
             />
             <div className="movie-info">
               <h3>{movie.title} ({movie.year})</h3>
-              <p><strong>Genre:</strong> {movie.genre}</p>
-              <p><strong>Rating:</strong> {movie.rating}</p>
-              <p>{movie.synopsis}</p>
               <button
+                className="watchlist-btn"
                 onClick={() => addToWatchlist(movie._id)}
-                style={{
-                  marginTop: '0.5rem',
-                  padding: '0.3rem 1rem',
-                  cursor: 'pointer',
-                  backgroundColor: '#444',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px'
-                }}
               >
                 ➕ Add to Watchlist
               </button>

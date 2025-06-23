@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const verifyToken = require('../middleware/authMiddleware');
-const User = require('../models/User'); // ✅ import User model
+const User = require('../models/User');
 
 // ✅ Protected: Full user profile
 router.get('/profile', verifyToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password'); // exclude password
+    const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).json({ msg: 'User not found' });
-    res.json({ user }); // will include name, email, role, subscriptionPlan, etc.
+    res.json({ user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: 'Server error' });
@@ -19,8 +19,6 @@ router.get('/profile', verifyToken, async (req, res) => {
 router.get('/test', (req, res) => {
   res.send('✅ Public user route working');
 });
-
-
 
 // ✅ Add to watchlist
 router.post('/watchlist/add/:movieId', verifyToken, async (req, res) => {
@@ -60,6 +58,25 @@ router.get('/watchlist', verifyToken, async (req, res) => {
     const user = await User.findById(req.user.id).populate('watchlist');
     res.json(user.watchlist);
   } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// 👥 Get all users — **admin only**
+router.get('/all', verifyToken, async (req, res) => {
+  try {
+    // only admins may access
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ msg: 'Access denied' });
+    }
+
+    const users = await User.find()
+      .select('-password')       // exclude passwords
+      .sort({ createdAt: -1 });  // newest first
+
+    res.json(users);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ msg: 'Server error' });
   }
 });

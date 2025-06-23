@@ -1,11 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
-
+import ViewUsers from './pages/ViewUsers';
 import Dashboard from './pages/DashboardUser';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -32,6 +27,7 @@ function App() {
             <Route path="/movie/:id" element={<MoviePlayer />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin-login" element={<AdminLogin />} />
+            
             <Route
               path="/watchlist"
               element={
@@ -56,8 +52,17 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <ViewUsers />
+                </ProtectedRoute>
+              }
+            />
+
           </Routes>
-        <ToastContainer position="top-right" autoClose={3000} />
         </Router>
       </ThemeProvider>
     </AuthProvider>
