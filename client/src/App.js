@@ -9,8 +9,8 @@ import MoviePlayer from './pages/MoviePlayer';
 import Profile from './pages/Profile';
 import Landing from './pages/Landing';
 import AdminLogin from './pages/AdminLogin';
-import Watchlist from './pages/Watchlist'; // ✅ Add this line
-
+import Watchlist from './pages/Watchlist';
+import UserDetails from './pages/UserDetails'; 
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
@@ -27,7 +27,7 @@ function App() {
             <Route path="/movie/:id" element={<MoviePlayer />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin-login" element={<AdminLogin />} />
-            
+
             <Route
               path="/watchlist"
               element={
@@ -52,7 +52,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/admin/users"
               element={
@@ -61,7 +60,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/admin/users/:id"
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <UserDetails />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
       </ThemeProvider>

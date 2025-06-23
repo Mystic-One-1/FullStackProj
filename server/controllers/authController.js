@@ -30,6 +30,11 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
 
+    // ✅ Block banned users
+    if (user.isBanned) {
+      return res.status(403).json({ msg: '🚫 You are banned from using this site' });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
@@ -49,7 +54,7 @@ exports.login = async (req, res) => {
       accessToken,
       refreshToken,
       user: {
-        name: user.name, // ✅ include name
+        name: user.name,
         email: user.email,
         role: user.role,
         plan: user.subscriptionPlan,
@@ -60,3 +65,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+

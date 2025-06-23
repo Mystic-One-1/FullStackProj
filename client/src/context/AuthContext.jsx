@@ -1,6 +1,7 @@
-// src/context/AuthContext.js
 import React, { createContext, useEffect, useState } from 'react';
 import API from '../services/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AuthContext = createContext();
 
@@ -24,9 +25,16 @@ export const AuthProvider = ({ children }) => {
           const res = await API.get('/users/profile', {
             headers: { Authorization: `Bearer ${storedToken}` },
           });
-          setUser(res.data.user); // Sync fresh profile
+          setUser(res.data.user); // Sync latest user info
         } catch (err) {
-          console.log('Token expired or not valid');
+          const msg = err?.response?.data?.msg;
+
+          if (msg === '🚫 You are banned from using this site') {
+            toast.error('🚫 You are banned from using this site');
+          } else {
+            toast.error('⚠️ Session expired or unauthorized');
+          }
+
           setUser(null);
           setToken(null);
           localStorage.removeItem('accessToken');
@@ -43,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     setUser(null);
     setToken(null);
-    window.location.href = '/'; // Or navigate('/login')
+    window.location.href = '/';
   };
 
   return (

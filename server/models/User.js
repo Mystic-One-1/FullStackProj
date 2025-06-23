@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true, // ✅ now name is mandatory during registration
+      required: true,
     },
     email: {
       type: String,
@@ -25,21 +25,22 @@ const UserSchema = new mongoose.Schema(
       enum: ['Basic', 'Standard', 'Premium'],
       default: 'Basic',
     },
+    isBanned: {
+      type: Boolean,
+      default: false, // ✅ new field for ban/unban logic
+    },
     watchHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie',
       },
     ],
-
     watchlist: [
       {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Movie',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie',
       },
     ],
-
-    
   },
   { timestamps: true }
 );
