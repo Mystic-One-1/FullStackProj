@@ -9,6 +9,10 @@ const MovieSchema = new mongoose.Schema({
   posterUrl: { type: String },     // External image URL
   trailerUrl: { type: String },    // Optional YouTube/MP4 link
   videoUrl: { type: String },      // Streaming URL (e.g., HLS/MP4)
+  tmdbId: { type: Number, required: true, unique: true },  // Unique TMDb ID
 }, { timestamps: true });
+
+// Create unique index on tmdbId to prevent duplicates
+MovieSchema.index({ tmdbId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Movie', MovieSchema);
