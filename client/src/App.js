@@ -11,7 +11,8 @@ import Landing from './pages/Landing';
 import AdminLogin from './pages/AdminLogin';
 import Watchlist from './pages/Watchlist';
 import UserDetails from './pages/UserDetails'; 
-import UserSearch from './pages/UserSearch'; // ✅ Import search component
+import UserSearch from './pages/UserSearch'; 
+import AdminMovies from './pages/AdminMovies';
 
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -74,6 +75,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/movies"
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <AdminMovies />
+                </ProtectedRoute>
+              }
+            />
+
           </Routes>
         </Router>
       </ThemeProvider>
