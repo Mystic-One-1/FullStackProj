@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import API from '../services/api';
+import API from '../services/api'; // ✅ using axios instance with token handling
 import './Login.css';
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,19 +9,20 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await API.post('/auth/login', { email, password });
-      const { accessToken, user } = res.data;
-
-      if (user.role === 'admin') {
-        alert('Login failed'); // Show error for admin
-        return;
-      }
 
       // Store token and user info
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('accessToken', res.data.accessToken);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
 
       alert('Login successful!');
-      window.location.href = '/';
+
+      // Optional: Redirect based on role
+      const role = res.data.user.role;
+      if (role === 'admin') {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/';
+      }
     } catch (err) {
       alert(err?.response?.data?.msg || 'Login failed');
     }

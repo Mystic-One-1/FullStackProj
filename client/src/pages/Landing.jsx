@@ -24,8 +24,8 @@ const Landing = () => {
     <>
       <Navbar />
       <div className="landing">
-        <h1 className="title">🎬 Welcome to <span className="highlight">StreamVerse</span></h1>
-        <p className="subtitle">Binge your favorite movies & shows in style</p>
+        <h1 className="title">🎬 Welcome to StreamVerse</h1>
+        <p className="subtitle">Binge your favorite movies & shows</p>
 
         <div className="buttons">
           <Link to="/login" className="btn">Login</Link>
