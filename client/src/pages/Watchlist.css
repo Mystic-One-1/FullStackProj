@@ -1,0 +1,114 @@
+/* src/pages/Watchlist.css */
+
+.watchlist-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background-color: #1a2634;
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.watchlist-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #e0e6ed;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 1rem;
+}
+
+.movie-card {
+  background-color: #243445;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.movie-card img {
+  width: 150px;
+  height: 225px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+
+.movie-card h4 {
+  color: #eff2f5;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.movie-card p {
+  color: #b0beca;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.watchlist-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.watch-btn {
+  background-color: #3cb4ff;
+  color: #1a2634;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.watch-btn:hover {
+  background-color: #57c6ff;
+}
+
+.remove-btn {
+  background-color: transparent;
+  color: #ff5f5f;
+  border: 1px solid #ff5f5f;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: rgba(255, 95, 95, 0.15);
+}
+
+@media (max-width: 600px) {
+  .watchlist-container h2 {
+    font-size: 1.75rem;
+  }
+  .movie-card img {
+    width: 120px;
+    height: 180px;
+  }
+}

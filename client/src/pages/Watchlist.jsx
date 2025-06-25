@@ -4,6 +4,7 @@ import API from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import './Watchlist.css';
 
 const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([]);
@@ -38,7 +39,7 @@ const Watchlist = () => {
   }, []);
 
   return (
-    <div style={{ padding: '1rem' }}>
+    <div className="watchlist-container">
       <Navbar />
       <h2>📺 My Watchlist</h2>
       {watchlist.length === 0 ? (
@@ -46,21 +47,34 @@ const Watchlist = () => {
       ) : (
         <div className="movie-grid">
           {watchlist.map((movie) => (
-            <div key={movie._id} className="movie-card" style={{ textAlign: 'center' }}>
+            <div key={movie._id} className="movie-card">
               <img
                 src={movie.posterUrl}
                 alt={movie.title}
-                style={{ width: '150px', height: '225px', objectFit: 'cover' }}
+                className="watchlist-poster"
+                onClick={() => navigate(`/movie/${movie._id}`)}
+                onError={(e) =>
+                  (e.target.src =
+                    'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg')
+                }
               />
-              <div>
+              <div className="movie-meta">
                 <h4>{movie.title}</h4>
                 <p>{movie.genre} • {movie.year}</p>
-                <button onClick={() => navigate(`/movie/${movie._id}`)} style={{ marginRight: '0.5rem' }}>
-                  ▶️ Watch
-                </button>
-                <button onClick={() => removeFromWatchlist(movie._id)} style={{ color: 'red' }}>
-                  ❌ Remove
-                </button>
+                <div className="watchlist-actions">
+                  <button
+                    className="watch-btn"
+                    onClick={() => navigate(`/movie/${movie._id}`)}
+                  >
+                    ▶️ Watch
+                  </button>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeFromWatchlist(movie._id)}
+                  >
+                    ❌ Remove
+                  </button>
+                </div>
               </div>
             </div>
           ))}
