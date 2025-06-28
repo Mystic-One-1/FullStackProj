@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import './Navbar.css'; // Optional: for styling
+import './Navbar.css';
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -14,26 +15,36 @@ const Navbar = () => {
     navigate('/');
   };
 
-  return (
-    <nav className="navbar">
-      <Link to="/" className="brand">🎥 StreamVerse</Link>
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
-      <div className="nav-links">
-        {user ? (
-          <>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/watchlist">📺 My Watchlist</Link>
-            <Link to="/profile">Profile</Link>
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
+  return (
+    <>
+      <nav className="navbar">
+        <button className="hamburger" onClick={toggleSidebar}>
+          ☰
+        </button>
+        <Link to="/" className="brand">🎥 StreamVerse</Link>
+      </nav>
+
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <div className="sidebar-content">
+          <button className="close-btn" onClick={toggleSidebar}>×</button>
+          {user ? (
+            <>
+              <Link to="/dashboard" onClick={toggleSidebar}>Dashboard</Link>
+              <Link to="/watchlist" onClick={toggleSidebar}>📺 My Watchlist</Link>
+              <Link to="/profile" onClick={toggleSidebar}>Profile</Link>
+              <button onClick={() => { toggleSidebar(); handleLogout(); }} className="logout-btn">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" onClick={toggleSidebar}>Login</Link>
+              <Link to="/register" onClick={toggleSidebar}>Register</Link>
+            </>
+          )}
+        </div>
       </div>
-    </nav>
+    </>
   );
 };
 

@@ -166,7 +166,8 @@
 
 /* Show ribbon on hover */
 .movie-card:hover .ribbon,
-.featured-card:hover .ribbon {
+.featured-card:hover .ribbon,
+.tmdb-result-card:hover .ribbon {
   opacity: 1;
 }
 
@@ -181,4 +182,69 @@
   .movie-info h3 {
     font-size: 0.95rem;
   }
+}
+
+/* TMDb Search Input */
+.tmdb-search-input {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  width: 100%;
+  max-width: 600px;
+  font-size: 1rem;
+  margin: 1rem auto;
+  display: block;
+  background-color: #243445;
+  color: #fff;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+/* TMDb Results Grid */
+.tmdb-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 1rem auto 2rem;
+  width: 100%;
+}
+
+/* Individual TMDb Result Card */
+.tmdb-result-card {
+  position: relative;
+  background-color: #2e3a4e;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #fff;
+  text-align: center;
+  padding: 0.5rem;
+}
+.tmdb-result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.tmdb-result-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.tmdb-result-card h4 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+}
+.tmdb-result-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: gold;
+}
+
+/* No Results Message */
+.no-results-msg {
+  text-align: center;
+  color: #ccc;
+  font-size: 1rem;
+  padding: 1rem;
 }
