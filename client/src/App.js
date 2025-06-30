@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -10,8 +12,8 @@ import Profile from './pages/Profile';
 import Landing from './pages/Landing';
 import AdminLogin from './pages/AdminLogin';
 import Watchlist from './pages/Watchlist';
-import UserDetails from './pages/UserDetails'; 
-import UserSearch from './pages/UserSearch'; 
+import UserDetails from './pages/UserDetails';
+import UserSearch from './pages/UserSearch';
 import AdminMovies from './pages/AdminMovies';
 
 import { AuthProvider } from './context/AuthContext';
@@ -55,8 +57,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* ✅ Admin user search page */}
             <Route
               path="/admin/users"
               element={
@@ -65,8 +65,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* ✅ Admin user detail page */}
             <Route
               path="/admin/users/:id"
               element={
@@ -83,7 +81,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
           </Routes>
         </Router>
       </ThemeProvider>
