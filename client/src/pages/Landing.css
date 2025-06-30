@@ -1,65 +1,188 @@
+/* Main Landing Container */
 .landing {
-  padding: 2rem;
-  text-align: center;
-  background-color: #111;
+  padding: 3rem 1rem 2rem;
+  background-color: #1a2634;
   color: #fff;
   min-height: 100vh;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  text-align: center;
+  padding: 5rem 1rem 2rem;  /* Previously 3rem */
+
 }
 
+/* Title and Highlight */
 .title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
+.highlight {
+  color: #ffb347;
+}
+
+/* Subtitle */
 .subtitle {
   font-size: 1.2rem;
+  color: #cbd5e0;
   margin-bottom: 2rem;
 }
 
+/* Login/Register Buttons (centered for guests) */
 .buttons {
-  margin-bottom: 2rem;
-}
-
-.btn {
-  display: inline-block;
-  margin: 0 1rem;
-  padding: 0.8rem 1.5rem;
-  background: crimson;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.section-title {
-  margin-top: 2rem;
-  font-size: 1.5rem;
-  border-bottom: 2px solid crimson;
-  display: inline-block;
-  padding-bottom: 0.5rem;
-}
-
-.movie-grid {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
+.btn {
+  background-color: #ffb347;
+  color: #1a2634;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #ffa733;
+}
+
+/* User Dropdown positioned at top-right */
+.user-dropdown-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 99;
+}
+
+.user-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background-color: #243445;
+  padding: 8px 12px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.user-display:hover {
+  background-color: #2f4b60;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #4b5f76;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.user-name {
+  white-space: nowrap;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  margin-top: 5px;
+  background-color: #2e3a4e;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 99;
+  min-width: 150px;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  display: block;
+  padding: 10px 15px;
+  text-align: left;
+  color: white;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background-color: #3b4d65;
+}
+
+/* Trending Section Title */
+.section-title {
+  font-size: 1.8rem;
+  margin-top: 2rem;
+  color: #ffb347;
+}
+
+/* Trending Movie Grid */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 1.5rem auto;
+}
+
+/* Movie Cards */
 .movie-card {
-  background: #222;
-  border-radius: 8px;
+  background-color: #243445;
+  border-radius: 10px;
   padding: 0.5rem;
-  width: 150px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 .movie-card img {
   width: 100%;
-  border-radius: 5px;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
 }
 
-.movie-card p {
-  margin-top: 0.5rem;
-  font-weight: bold;
+/* Responsive */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .user-display {
+    padding: 6px 10px;
+  }
+
+  .user-name {
+    font-size: 14px;
+  }
+
+  .dropdown-menu {
+    min-width: 130px;
+  }
 }
