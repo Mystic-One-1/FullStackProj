@@ -28,6 +28,7 @@ const DashboardUser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [tmdbDetailsMap, setTmdbDetailsMap] = useState({});
+  const [watchlistMovies, setWatchlistMovies] = useState(new Set()); // Track watchlist movies
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -47,20 +48,47 @@ const DashboardUser = () => {
     }
   };
 
+  // Fetch user's watchlist
+  const fetchWatchlist = async () => {
+    try {
+      const res = await API.get('/users/watchlist');
+      const watchlistIds = new Set(res.data.map(movie => movie._id));
+      setWatchlistMovies(watchlistIds);
+    } catch (err) {
+      console.error('Error fetching watchlist:', err);
+    }
+  };
+
   const addToWatchlist = async (movieId, e, movieTitle = '') => {
     e.stopPropagation();
     try {
-      await API.post(`/users/watchlist/add/${movieId}`);
-      toast.success(`${movieTitle || 'Movie'} added to watchlist`);
+      if (watchlistMovies.has(movieId)) {
+        // Remove from watchlist
+        await API.delete(`/users/watchlist/remove/${movieId}`);
+        setWatchlistMovies(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(movieId);
+          return newSet;
+        });
+        toast.success(`${movieTitle || 'Movie'} removed from watchlist`);
+      } else {
+        // Add to watchlist
+        await API.post(`/users/watchlist/add/${movieId}`);
+        setWatchlistMovies(prev => new Set(prev).add(movieId));
+        toast.success(`${movieTitle || 'Movie'} added to watchlist`);
+      }
     } catch (err) {
-      console.error('Error adding to watchlist:', err);
-      toast.error('Failed to add to watchlist');
+      console.error('Error updating watchlist:', err);
+      toast.error('Failed to update watchlist');
     }
   };
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+    if (user) {
+      fetchWatchlist();
+    }
+  }, [user]);
 
   useEffect(() => {
     const search = searchTerm.trim().toLowerCase();
@@ -157,6 +185,7 @@ const DashboardUser = () => {
           {filteredMovies.length > 0 ? (
             filteredMovies.map((movie) => {
               const tmdb = tmdbDetailsMap[movie.title];
+              const isInWatchlist = watchlistMovies.has(movie._id);
               return (
                 <div
                   key={movie._id}
@@ -175,9 +204,9 @@ const DashboardUser = () => {
                     }
                   />
                   <div
-                    className="ribbon"
+                    className={`ribbon ${isInWatchlist ? 'in-watchlist' : ''}`}
                     onClick={(e) => addToWatchlist(movie._id, e, movie.title)}
-                    title="Add to Watchlist"
+                    title={isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
                   >
                     ★
                   </div>
@@ -203,25 +232,28 @@ const DashboardUser = () => {
         <div className="featured-carousel-container">
           <button className="carousel-arrow left" onClick={prevSlide}>‹</button>
           <div className="featured-carousel" ref={carouselRef}>
-            {featured.map((m) => (
-              <div
-                key={m._id}
-                className="featured-card"
-                onClick={() => navigate(`/movie/${m._id}`)}
-              >
-                <img src={m.posterUrl} alt={m.title} />
+            {featured.map((m) => {
+              const isInWatchlist = watchlistMovies.has(m._id);
+              return (
                 <div
-                  className="ribbon"
-                  onClick={(e) => addToWatchlist(m._id, e, m.title)}
-                  title="Add to Watchlist"
+                  key={m._id}
+                  className="featured-card"
+                  onClick={() => navigate(`/movie/${m._id}`)}
                 >
-                  ★
+                  <img src={m.posterUrl} alt={m.title} />
+                  <div
+                    className={`ribbon ${isInWatchlist ? 'in-watchlist' : ''}`}
+                    onClick={(e) => addToWatchlist(m._id, e, m.title)}
+                    title={isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+                  >
+                    ★
+                  </div>
+                  <div className="overlay">
+                    <h4>{m.title}</h4>
+                  </div>
                 </div>
-                <div className="overlay">
-                  <h4>{m.title}</h4>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <button className="carousel-arrow right" onClick={nextSlide}>›</button>
         </div>
@@ -229,32 +261,35 @@ const DashboardUser = () => {
 
       {!searchTerm && (
         <div className="movie-row">
-          {movies.map((movie) => (
-            <div key={movie._id} className="movie-card">
-              <img
-                className="movie-poster"
-                src={movie.posterUrl}
-                alt={movie.title}
-                onClick={() => navigate(`/movie/${movie._id}`)}
-                onError={(e) =>
-                  (e.target.src =
-                    'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg')
-                }
-              />
-              <div
-                className="ribbon"
-                onClick={(e) => addToWatchlist(movie._id, e, movie.title)}
-                title="Add to Watchlist"
-              >
-                ★
+          {movies.map((movie) => {
+            const isInWatchlist = watchlistMovies.has(movie._id);
+            return (
+              <div key={movie._id} className="movie-card">
+                <img
+                  className="movie-poster"
+                  src={movie.posterUrl}
+                  alt={movie.title}
+                  onClick={() => navigate(`/movie/${movie._id}`)}
+                  onError={(e) =>
+                    (e.target.src =
+                      'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg')
+                  }
+                />
+                <div
+                  className={`ribbon ${isInWatchlist ? 'in-watchlist' : ''}`}
+                  onClick={(e) => addToWatchlist(movie._id, e, movie.title)}
+                  title={isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+                >
+                  ★
+                </div>
+                <div className="movie-info">
+                  <h3>
+                    {movie.title} ({movie.year})
+                  </h3>
+                </div>
               </div>
-              <div className="movie-info">
-                <h3>
-                  {movie.title} ({movie.year})
-                </h3>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
