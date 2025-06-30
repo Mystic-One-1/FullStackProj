@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1a2634;
+  background-color: black;
   color: #fff;
   min-height: 100vh;
   padding: 2rem 1rem;
@@ -27,7 +27,7 @@
   padding: 0.75rem 1.25rem;
   border: 1px solid #3b4b5b;
   border-radius: 999px;
-  background-color: #243445;
+  background-color: black;
   color: #e0e6ed;
   font-size: 1rem;
   transition: background-color 0.2s;
@@ -35,7 +35,7 @@
 
 .search-bar:focus {
   outline: none;
-  background-color: #2b3b4c;
+  background-color:black;
 }
 
 /* Grid Layout for Movies */
@@ -49,7 +49,7 @@
 
 /* Individual Movie Card */
 .movie-card {
-  background-color: #243445;
+  background-color: black;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
