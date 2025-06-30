@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import API from '../services/api';
 import { AuthContext } from '../context/AuthContext';
+import { ThemeContext } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Watchlist.css';
@@ -9,6 +10,7 @@ import './Watchlist.css';
 const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([]);
   const { user, token } = useContext(AuthContext);
+  const { darkMode } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const fetchWatchlist = async () => {
@@ -39,7 +41,7 @@ const Watchlist = () => {
   }, []);
 
   return (
-    <div className="watchlist-container">
+    <div className={`watchlist-container ${darkMode ? 'dark' : 'light'}`}>
       <Navbar />
       <h2>📺 My Watchlist</h2>
       {watchlist.length === 0 ? (
