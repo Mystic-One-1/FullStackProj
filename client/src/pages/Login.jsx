@@ -37,22 +37,28 @@ const Login = () => {
     } catch (err) {
       console.error('❌ Login error:', err);
 
-      // ✅ Guaranteed fallback message
       let message = '❌ Invalid email or password';
 
-      // ✅ Try extracting a meaningful error message from backend
-      if (err.response?.data) {
+      if (err.response) {
         const data = err.response.data;
+        console.warn('📥 Backend response error:', data);
 
         if (typeof data === 'string') {
           message = data;
         } else if (typeof data === 'object') {
-          message = data.msg || data.error || message;
+          message = data.msg || data.message || data.error || message;
         }
+      } else if (err.message) {
+        message = err.message;
       }
 
-      // ✅ Always show the toast error
-      toast.error(message);
+      alert('Login Failed: Wrong Password or Email');
+
+      toast.error(message, {
+        position: 'top-center',
+        autoClose: 4000,
+        pauseOnHover: true,
+      });
     }
   };
 
