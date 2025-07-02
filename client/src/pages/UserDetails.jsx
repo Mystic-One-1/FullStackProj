@@ -102,7 +102,7 @@ const UserDetails = () => {
       <div className="user-details-box">
         <p><strong>Name:</strong> {user.name}</p>
         <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Role:</strong> {user.role}</p>
+        {/* <p><strong>Role:</strong> {user.role}</p> */}
         <p><strong>Plan:</strong>
           <select
             value={user.subscriptionPlan}

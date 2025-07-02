@@ -1,17 +1,21 @@
+// src/components/Navbar.jsx
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    setUser(null);
+    if (logout) logout();
+    else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+    }
+    setIsOpen(false);
     navigate('/');
   };
 
@@ -29,12 +33,19 @@ const Navbar = () => {
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-content">
           <button className="close-btn" onClick={toggleSidebar}>×</button>
+
           {user ? (
             <>
               <Link to="/dashboard" onClick={toggleSidebar}>Dashboard</Link>
               <Link to="/watchlist" onClick={toggleSidebar}>📺 My Watchlist</Link>
               <Link to="/profile" onClick={toggleSidebar}>Profile</Link>
-              <button onClick={() => { toggleSidebar(); handleLogout(); }} className="logout-btn">Logout</button>
+
+              {/* ✅ Show AI Chatbot only for normal users */}
+              {user.role === 'user' && (
+                <Link to="/chatbot" onClick={toggleSidebar}>🤖 Movie Chatbot</Link>
+              )}
+
+              <button onClick={handleLogout} className="logout-btn">Logout</button>
             </>
           ) : (
             <>

@@ -1,12 +1,56 @@
-/* src/pages/DashboardUser.css */
 
-/* Overall Container */
+
+/* DARK THEME */
+.dark .home-container {
+  background-color: black;
+  color: #fff;
+}
+
+.dark .featured-card,
+.dark .movie-card,
+.dark .tmdb-result-card {
+  background-color: black;
+  color: #fff;
+}
+
+.dark .tmdb-search-input {
+  background-color: black;
+  color: #fff;
+}
+
+.dark .carousel-arrow {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+}
+
+/* LIGHT THEME */
+.light .home-container {
+  background-color: #f4f4f4;
+  color: #111;
+}
+
+.light .featured-card,
+.light .movie-card,
+.light .tmdb-result-card {
+  background-color: #fff;
+  color: #111;
+}
+
+.light .tmdb-search-input {
+  background-color: #fff;
+  color: #111;
+}
+
+.light .carousel-arrow {
+  background: rgba(0,0,0,0.1);
+  color: #000;
+}
+
+/* Shared Styles */
 .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1a2634;
-  color: #fff;
   min-height: 100vh;
   padding: 2rem 1rem;
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -16,11 +60,9 @@
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #e0e6ed;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
-/* Featured Carousel Container */
 .featured-carousel-container {
   position: relative;
   width: 100%;
@@ -28,7 +70,6 @@
   margin: 2rem auto;
 }
 
-/* Featured Carousel Scroll */
 .featured-carousel {
   display: flex;
   gap: 1rem;
@@ -36,30 +77,30 @@
   padding: 1rem 0;
   scroll-behavior: smooth;
 }
+
 .featured-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* Individual Featured Card */
-.featured-card {
+.featured-card,
+.movie-card,
+.tmdb-result-card {
   position: relative;
-  flex: 0 0 auto;
-  width: 280px;
-  background-color: #243445;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 0, 0, 0.2); /* Default red border */
 }
-.featured-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-.featured-card img {
+
+.featured-card img,
+.tmdb-result-card img,
+.movie-poster {
   width: 100%;
   height: auto;
   display: block;
 }
+
 .overlay {
   position: absolute;
   bottom: 0;
@@ -67,47 +108,33 @@
   background: linear-gradient(transparent, rgba(0,0,0,0.8));
   padding: 0.75rem;
 }
+
 .overlay h4 {
   margin: 0;
-  color: #fff;
   font-size: 1rem;
 }
 
-/* Arrow Buttons */
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.6);
-  border: none;
-  color: #fff;
-  font-size: 1.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}
-.carousel-arrow:hover {
-  background: rgba(0,0,0,0.8);
-}
-.carousel-arrow.left {
-  left: 0.5rem;
-}
-.carousel-arrow.right {
-  right: 0.5rem;
+/* Hover glow effect (red) */
+.featured-card:hover,
+.movie-card:hover,
+.tmdb-result-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 10px rgba(255, 0, 0, 0.4),
+    0 0 20px rgba(255, 0, 0, 0.5),
+    0 0 30px rgba(255, 0, 0, 0.6);
+  border: 1px solid rgba(255, 0, 0, 0.6);
 }
 
-/* Progress Bar (hidden as requested) */
+/* Carousel arrows (optional to keep hidden) */
+.carousel-arrow {
+  display: none;
+}
+
 .progress-wrapper {
   display: none;
 }
 
-/* Movie Grid */
 .movie-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -116,24 +143,7 @@
   max-width: 1200px;
   margin-top: 1rem;
 }
-.movie-card {
-  position: relative;
-  background-color: #243445;
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.movie-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-}
-.movie-poster {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+
 .movie-info {
   padding: 0.75rem 1rem;
   flex: 1;
@@ -141,37 +151,49 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 .movie-info h3 {
   margin: 0 0 0.5rem;
   font-size: 1rem;
-  color: #eff2f5;
   line-height: 1.2;
 }
 
-/* Ribbon Button for Watchlist */
 .ribbon {
   position: absolute;
   top: 8px;
   right: 8px;
   font-size: 1.5rem;
-  color: gold;
   background-color: rgba(0, 0, 0, 0.6);
   padding: 4px 6px;
   border-radius: 50%;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, color 0.3s ease, background-color 0.3s ease;
   z-index: 5;
 }
 
-/* Show ribbon on hover */
+.ribbon.in-watchlist {
+  color: gold;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 1;
+}
+
 .movie-card:hover .ribbon,
 .featured-card:hover .ribbon,
 .tmdb-result-card:hover .ribbon {
   opacity: 1;
 }
 
-/* Responsive */
+.ribbon:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.ribbon.in-watchlist:hover {
+  color: #ff6b6b;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
 @media (max-width: 600px) {
   .home-container h2 {
     font-size: 1.75rem;
@@ -184,7 +206,6 @@
   }
 }
 
-/* TMDb Search Input */
 .tmdb-search-input {
   padding: 0.6rem 1rem;
   border-radius: 6px;
@@ -195,12 +216,9 @@
   font-size: 1rem;
   margin: 1rem auto;
   display: block;
-  background-color: #243445;
-  color: #fff;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
-/* TMDb Results Grid */
 .tmdb-results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -210,41 +228,26 @@
   width: 100%;
 }
 
-/* Individual TMDb Result Card */
-.tmdb-result-card {
-  position: relative;
-  background-color: #2e3a4e;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #fff;
-  text-align: center;
-  padding: 0.5rem;
-}
-.tmdb-result-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-.tmdb-result-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
 .tmdb-result-card h4 {
   margin: 0.5rem 0 0.25rem;
   font-size: 1rem;
 }
+
 .tmdb-result-card p {
   margin: 0;
   font-size: 0.9rem;
   color: gold;
 }
 
-/* No Results Message */
 .no-results-msg {
   text-align: center;
-  color: #ccc;
   font-size: 1rem;
   padding: 1rem;
+}
+
+.theme-icon-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
 }

@@ -1,114 +1,133 @@
-/* src/pages/Watchlist.css */
+/* Watchlist.css */
 
 .watchlist-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 1rem;
-  background-color: #1a2634;
   min-height: 100vh;
-  color: #fff;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  padding: 2rem 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.watchlist-container h2 {
+.watchlist-heading {
   font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #e0e6ed;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #e50914;
+}
+
+.empty-msg {
+  text-align: center;
+  font-size: 1.2rem;
+  color: gray;
 }
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1.5rem;
-  width: 100%;
   max-width: 1200px;
-  margin-top: 1rem;
+  margin: 0 auto;
 }
 
 .movie-card {
-  background-color: #243445;
+  background-color: #111;
+  color: white;
   border-radius: 8px;
-  padding: 1rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .movie-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
 }
 
-.movie-card img {
-  width: 150px;
-  height: 225px;
+.watchlist-poster {
+  width: 100%;
+  height: 260px;
   object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 0.75rem;
   cursor: pointer;
 }
 
-.movie-card h4 {
-  color: #eff2f5;
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
+.movie-meta {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
 }
 
-.movie-card p {
-  color: #b0beca;
-  font-size: 0.85rem;
-  margin-bottom: 0.75rem;
+.movie-meta h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.movie-meta p {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin: 0 0 1rem;
 }
 
 .watchlist-actions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  justify-content: center;
+}
+
+.watch-btn,
+.remove-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
 .watch-btn {
-  background-color: #3cb4ff;
-  color: #1a2634;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background-color: #e50914;
+  color: white;
 }
 
 .watch-btn:hover {
-  background-color: #57c6ff;
+  background-color: #f6121d;
 }
 
 .remove-btn {
-  background-color: transparent;
-  color: #ff5f5f;
-  border: 1px solid #ff5f5f;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
 }
 
 .remove-btn:hover {
-  background-color: rgba(255, 95, 95, 0.15);
+  background-color: rgba(255, 107, 107, 0.15);
 }
 
-@media (max-width: 600px) {
-  .watchlist-container h2 {
-    font-size: 1.75rem;
-  }
-  .movie-card img {
-    width: 120px;
-    height: 180px;
-  }
+/* Light theme overrides */
+.watchlist-container.light {
+  background-color: #f2f4f8;
+  color: black;
+}
+
+.watchlist-container.light .movie-card {
+  background-color: #fff;
+  color: black;
+}
+
+.watchlist-container.light .movie-meta p {
+  color: #333;
+}
+
+.watchlist-container.light .remove-btn {
+  color: #d00;
+  border-color: #d00;
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+.watchlist-container.light .remove-btn:hover {
+  background-color: rgba(255, 0, 0, 0.15);
 }

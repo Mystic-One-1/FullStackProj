@@ -1,188 +1,191 @@
-/* Main Landing Container */
-.landing {
-  padding: 3rem 1rem 2rem;
-  background-color: #1a2634;
-  color: #fff;
-  min-height: 100vh;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  position: relative;
-  text-align: center;
-  padding: 5rem 1rem 2rem;  /* Previously 3rem */
+/* src/pages/Landing.css */
 
+.landing {
+  padding: 4rem 2rem;
+  min-height: 100vh;
+  color: #fff;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
-/* Title and Highlight */
+/* Dark overlay over background image */
+.landing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.6);
+  z-index: -1;
+}
+
+/* Title and Subtitle */
 .title {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
 }
 
 .highlight {
   color: #ffb347;
 }
 
-/* Subtitle */
 .subtitle {
-  font-size: 1.2rem;
-  color: #cbd5e0;
+  font-size: 1.3rem;
+  color: #e0e0e0;
   margin-bottom: 2rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
 }
 
-/* Login/Register Buttons (centered for guests) */
+/* Auth Buttons */
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3rem;
 }
 
 .btn {
+  padding: 0.75rem 1.5rem;
   background-color: #ffb347;
-  color: #1a2634;
-  padding: 0.7rem 1.4rem;
+  color: #1a1a1a;
   border: none;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 8px;
   font-weight: bold;
-  cursor: pointer;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #ffa733;
+  background-color: #ffc977;
+  transform: scale(1.05);
 }
 
-/* User Dropdown positioned at top-right */
+/* User Dropdown */
 .user-dropdown-wrapper {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 99;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
 }
 
 .user-display {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  background-color: #243445;
-  padding: 8px 12px;
-  border-radius: 20px;
-  color: white;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #ffffff20;
+  border-radius: 8px;
+  transition: background 0.3s;
 }
 
 .user-display:hover {
-  background-color: #2f4b60;
+  background-color: #ffffff30;
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #4b5f76;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  font-size: 1.4rem;
 }
 
 .user-name {
-  white-space: nowrap;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
 .dropdown-menu {
   position: absolute;
-  top: 110%;
+  top: 120%;
   right: 0;
-  margin-top: 5px;
-  background-color: #2e3a4e;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 99;
-  min-width: 150px;
+  background-color: #2e3b4e;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 0.75rem;
+  width: 160px;
+  text-align: left;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown-menu a,
 .dropdown-menu button {
   display: block;
-  padding: 10px 15px;
-  text-align: left;
-  color: white;
+  padding: 0.5rem;
   background: none;
+  color: #fff;
   border: none;
   width: 100%;
+  text-align: left;
   cursor: pointer;
-  font-size: 14px;
-  text-decoration: none;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: background 0.2s;
 }
 
 .dropdown-menu a:hover,
 .dropdown-menu button:hover {
-  background-color: #3b4d65;
+  background-color: #3e4b5e;
 }
 
-/* Trending Section Title */
+/* Trending Section */
 .section-title {
-  font-size: 1.8rem;
-  margin-top: 2rem;
+  font-size: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
   color: #ffb347;
 }
 
-/* Trending Movie Grid */
 .movie-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1rem;
-  max-width: 1000px;
-  margin: 1.5rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
-/* Movie Cards */
 .movie-card {
-  background-color: #243445;
-  border-radius: 10px;
-  padding: 0.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  color: #fff;
-  text-align: center;
-}
-
-.movie-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  background-color: #ffffff10;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 160px;
+  padding-bottom: 0.5rem;
 }
 
 .movie-card img {
   width: 100%;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
+  height: auto;
+  display: block;
+}
+
+.movie-card p {
+  padding: 0.5rem;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+.movie-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive */
 @media (max-width: 600px) {
   .title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
-  .section-title {
-    font-size: 1.5rem;
+  .subtitle {
+    font-size: 1.1rem;
   }
 
-  .user-display {
-    padding: 6px 10px;
-  }
-
-  .user-name {
-    font-size: 14px;
-  }
-
-  .dropdown-menu {
-    min-width: 130px;
+  .movie-card {
+    width: 130px;
   }
 }

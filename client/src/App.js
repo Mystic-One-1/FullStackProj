@@ -3,6 +3,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import MovieChatbot from './pages/MovieChatbot';
 import Dashboard from './pages/DashboardUser';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -17,8 +18,8 @@ import UserSearch from './pages/UserSearch';
 import AdminMovies from './pages/AdminMovies';
 
 import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -34,6 +35,14 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin />} />
 
             <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/watchlist"
               element={
                 <ProtectedRoute>
@@ -42,10 +51,10 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path="/chatbot"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <MovieChatbot />
                 </ProtectedRoute>
               }
             />

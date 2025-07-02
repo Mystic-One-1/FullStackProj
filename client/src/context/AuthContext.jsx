@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ Indicates profile sync in progress
 
   useEffect(() => {
     const storedToken = localStorage.getItem('accessToken');
@@ -16,8 +17,13 @@ export const AuthProvider = ({ children }) => {
     if (storedToken) {
       setToken(storedToken);
 
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      try {
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      } catch (err) {
+        console.warn('Corrupted user data in localStorage');
+        localStorage.removeItem('user');
       }
 
       const fetchProfile = async () => {
@@ -25,7 +31,9 @@ export const AuthProvider = ({ children }) => {
           const res = await API.get('/users/profile', {
             headers: { Authorization: `Bearer ${storedToken}` },
           });
-          setUser(res.data.user); // Sync latest user info
+
+          setUser(res.data.user); // ✅ Sync with latest profile
+          localStorage.setItem('user', JSON.stringify(res.data.user));
         } catch (err) {
           const msg = err?.response?.data?.msg;
 
@@ -35,16 +43,24 @@ export const AuthProvider = ({ children }) => {
             toast.error('⚠️ Session expired or unauthorized');
           }
 
-          setUser(null);
-          setToken(null);
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('user');
+          logout();
+        } finally {
+          setLoading(false); // ✅ Done syncing
         }
       };
 
       fetchProfile();
+    } else {
+      setLoading(false); // ✅ No token, done
     }
   }, []);
+
+  const login = (userData, jwtToken) => {
+    setUser(userData);
+    setToken(jwtToken);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('accessToken', jwtToken);
+  };
 
   const logout = () => {
     localStorage.removeItem('accessToken');
@@ -55,7 +71,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, token, setToken, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        loading,     // ✅ Can be used in Profile/Watchlist/etc
+        setUser,
+        setToken,
+        login,
+        logout
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
