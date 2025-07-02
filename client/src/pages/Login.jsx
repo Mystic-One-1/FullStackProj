@@ -16,6 +16,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log('🔐 Attempting login with:', { email, password });
+
     try {
       const res = await API.post('/auth/login', { email, password });
       const { accessToken, user } = res.data;
@@ -26,14 +28,31 @@ const Login = () => {
       }
 
       if (login) {
-        login(user, accessToken); // use context login function
+        login(user, accessToken);
         toast.success('✅ Login successful!');
         navigate(from, { replace: true });
       } else {
         toast.error('⚠️ Login context not available');
       }
     } catch (err) {
-      toast.error(err?.response?.data?.msg || '❌ Login failed');
+      console.error('❌ Login error:', err);
+
+      // ✅ Enhanced error handling for different API formats
+      let message = '❌ Invalid email or password'; // fallback message
+
+      if (err.response) {
+        const { data } = err.response;
+
+        if (typeof data === 'string') {
+          message = data;
+        } else if (data?.msg) {
+          message = data.msg;
+        } else if (data?.error) {
+          message = data.error;
+        }
+      }
+
+      toast.error(message);
     }
   };
 

@@ -29,12 +29,12 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false, 
     },
-    watchHistory: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Movie',
-      },
-    ],
+    // watchHistory: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Movie',
+    //   },
+    // ],
     watchlist: [
       {
         type: mongoose.Schema.Types.ObjectId,
