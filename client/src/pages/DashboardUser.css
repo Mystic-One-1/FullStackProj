@@ -301,3 +301,11 @@
   font-size: 1rem;
   padding: 1rem;
 }
+
+
+.theme-icon-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}

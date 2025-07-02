@@ -2,10 +2,10 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import API from '../services/api';
 import './DashboardUser.css';
-import ThemeToggle from '../components/ThemeToggle';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import ThemeToggle from '../components/ThemeToggle'; // 🌙 Theme toggle
 import { toast } from 'react-toastify';
 
 const fetchTmdbDetails = async (title, apiKey) => {
@@ -28,7 +28,7 @@ const DashboardUser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [tmdbDetailsMap, setTmdbDetailsMap] = useState({});
-  const [watchlistMovies, setWatchlistMovies] = useState(new Set()); // Track watchlist movies
+  const [watchlistMovies, setWatchlistMovies] = useState(new Set());
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -48,7 +48,6 @@ const DashboardUser = () => {
     }
   };
 
-  // Fetch user's watchlist
   const fetchWatchlist = async () => {
     try {
       const res = await API.get('/users/watchlist');
@@ -63,7 +62,6 @@ const DashboardUser = () => {
     e.stopPropagation();
     try {
       if (watchlistMovies.has(movieId)) {
-        // Remove from watchlist
         await API.delete(`/users/watchlist/remove/${movieId}`);
         setWatchlistMovies(prev => {
           const newSet = new Set(prev);
@@ -72,7 +70,6 @@ const DashboardUser = () => {
         });
         toast.success(`${movieTitle || 'Movie'} removed from watchlist`);
       } else {
-        // Add to watchlist
         await API.post(`/users/watchlist/add/${movieId}`);
         setWatchlistMovies(prev => new Set(prev).add(movieId));
         toast.success(`${movieTitle || 'Movie'} added to watchlist`);
@@ -85,19 +82,13 @@ const DashboardUser = () => {
 
   useEffect(() => {
     fetchMovies();
-    if (user) {
-      fetchWatchlist();
-    }
+    if (user) fetchWatchlist();
   }, [user]);
 
   useEffect(() => {
     const search = searchTerm.trim().toLowerCase();
-    if (!search) {
-      setFilteredMovies([]);
-      return;
-    }
-
-    const matches = movies.filter((movie) =>
+    if (!search) return setFilteredMovies([]);
+    const matches = movies.filter(movie =>
       movie.title.toLowerCase().includes(search)
     );
     setFilteredMovies(matches);
@@ -106,18 +97,14 @@ const DashboardUser = () => {
   useEffect(() => {
     const fetchBatchDetails = async () => {
       const titlesToFetch = filteredMovies
-        .filter((m) => !tmdbDetailsMap[m.title])
-        .map((m) => m.title);
+        .filter(m => !tmdbDetailsMap[m.title])
+        .map(m => m.title);
 
       const uniqueTitles = [...new Set(titlesToFetch)];
-
       for (const title of uniqueTitles) {
         const tmdbData = await fetchTmdbDetails(title, TMDB_API_KEY);
         if (tmdbData) {
-          setTmdbDetailsMap((prev) => ({
-            ...prev,
-            [title]: tmdbData,
-          }));
+          setTmdbDetailsMap(prev => ({ ...prev, [title]: tmdbData }));
         }
       }
     };
@@ -143,7 +130,7 @@ const DashboardUser = () => {
   useEffect(() => {
     if (!featured.length) return;
     const interval = setInterval(() => {
-      setCurrentIdx((i) => (i + 1) % featured.length);
+      setCurrentIdx(i => (i + 1) % featured.length);
     }, 4000);
     return () => clearInterval(interval);
   }, [featured.length]);
@@ -157,17 +144,17 @@ const DashboardUser = () => {
     }
   }, [currentIdx, featured]);
 
-  const prevSlide = () => {
-    setCurrentIdx((i) => (i - 1 + featured.length) % featured.length);
-  };
-  const nextSlide = () => {
-    setCurrentIdx((i) => (i + 1) % featured.length);
-  };
+  const prevSlide = () => setCurrentIdx(i => (i - 1 + featured.length) % featured.length);
+  const nextSlide = () => setCurrentIdx(i => (i + 1) % featured.length);
 
   return (
     <div className="home-container">
       <Navbar />
-      <ThemeToggle />
+
+      {/* 🌙 Theme toggle icon (top-right corner) */}
+      <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
+        <ThemeToggle />
+      </div>
 
       <h2>🎬 {user ? `Welcome, ${user.name}!` : 'Movie Catalog'}</h2>
 
@@ -179,7 +166,7 @@ const DashboardUser = () => {
         className="tmdb-search-input"
       />
 
-      {/* Search Results Section */}
+      {/* Search Results */}
       {searchTerm && (
         <div className="tmdb-results">
           {filteredMovies.length > 0 ? (
@@ -199,9 +186,7 @@ const DashboardUser = () => {
                         : movie.posterUrl
                     }
                     alt={movie.title}
-                    onError={(e) =>
-                      (e.target.src = 'https://via.placeholder.com/200x300')
-                    }
+                    onError={(e) => (e.target.src = 'https://via.placeholder.com/200x300')}
                   />
                   <div
                     className={`ribbon ${isInWatchlist ? 'in-watchlist' : ''}`}
@@ -228,6 +213,7 @@ const DashboardUser = () => {
         <p>No movies available. Admins can add some!</p>
       )}
 
+      {/* Featured Carousel */}
       {!searchTerm && !loading && featured.length > 0 && (
         <div className="featured-carousel-container">
           <button className="carousel-arrow left" onClick={prevSlide}>‹</button>
@@ -259,6 +245,7 @@ const DashboardUser = () => {
         </div>
       )}
 
+      {/* All Movies */}
       {!searchTerm && (
         <div className="movie-row">
           {movies.map((movie) => {
@@ -271,8 +258,7 @@ const DashboardUser = () => {
                   alt={movie.title}
                   onClick={() => navigate(`/movie/${movie._id}`)}
                   onError={(e) =>
-                    (e.target.src =
-                      'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg')
+                    (e.target.src = 'https://images.pexels.com/photos/56866/garden-rose-red-pink-56866.jpeg')
                   }
                 />
                 <div
@@ -283,9 +269,7 @@ const DashboardUser = () => {
                   ★
                 </div>
                 <div className="movie-info">
-                  <h3>
-                    {movie.title} ({movie.year})
-                  </h3>
+                  <h3>{movie.title} ({movie.year})</h3>
                 </div>
               </div>
             );

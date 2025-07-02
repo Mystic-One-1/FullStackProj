@@ -8,7 +8,8 @@ const MovieSchema = new mongoose.Schema({
   synopsis: { type: String },
   posterUrl: { type: String },     // External image URL
   trailerUrl: { type: String },    // Optional YouTube/MP4 link
-  videoUrl: { type: String },      // Streaming URL (e.g., HLS/MP4)
+  videoUrl: { type: String }, 
+       // Streaming URL (e.g., HLS/MP4)
   tmdbId: { type: Number, required: true, unique: true },  // Unique TMDb ID
 }, { timestamps: true });
 

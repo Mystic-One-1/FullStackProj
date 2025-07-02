@@ -27,3 +27,16 @@ body.dark {
 a, p, h1, h2, h3, h4 {
   transition: color 0.2s, background-color 0.2s;
 }
+
+
+body.dark-theme {
+  background-color: #121212;
+  color: white;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
