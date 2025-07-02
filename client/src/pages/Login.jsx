@@ -37,21 +37,21 @@ const Login = () => {
     } catch (err) {
       console.error('❌ Login error:', err);
 
-      // ✅ Enhanced error handling for different API formats
-      let message = '❌ Invalid email or password'; // fallback message
+      // ✅ Guaranteed fallback message
+      let message = '❌ Invalid email or password';
 
-      if (err.response) {
-        const { data } = err.response;
+      // ✅ Try extracting a meaningful error message from backend
+      if (err.response?.data) {
+        const data = err.response.data;
 
         if (typeof data === 'string') {
           message = data;
-        } else if (data?.msg) {
-          message = data.msg;
-        } else if (data?.error) {
-          message = data.error;
+        } else if (typeof data === 'object') {
+          message = data.msg || data.error || message;
         }
       }
 
+      // ✅ Always show the toast error
       toast.error(message);
     }
   };
