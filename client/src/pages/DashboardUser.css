@@ -1,6 +1,4 @@
-/* src/pages/DashboardUser.css */
 
-/* Theme-specific wrapper classes */
 
 /* DARK THEME */
 .dark .home-container {
@@ -48,7 +46,7 @@
   color: #000;
 }
 
-/* Shared Styles (unchanged) */
+/* Shared Styles */
 .home-container {
   display: flex;
   flex-direction: column;
@@ -84,22 +82,20 @@
   display: none;
 }
 
-.featured-card {
+.featured-card,
+.movie-card,
+.tmdb-result-card {
   position: relative;
-  flex: 0 0 auto;
-  width: 280px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 0, 0, 0.2); /* Default red border */
 }
 
-.featured-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-
-.featured-card img {
+.featured-card img,
+.tmdb-result-card img,
+.movie-poster {
   width: 100%;
   height: auto;
   display: block;
@@ -118,33 +114,21 @@
   font-size: 1rem;
 }
 
+/* Hover glow effect (red) */
+.featured-card:hover,
+.movie-card:hover,
+.tmdb-result-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 10px rgba(255, 0, 0, 0.4),
+    0 0 20px rgba(255, 0, 0, 0.5),
+    0 0 30px rgba(255, 0, 0, 0.6);
+  border: 1px solid rgba(255, 0, 0, 0.6);
+}
+
+/* Carousel arrows (optional to keep hidden) */
 .carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  font-size: 1.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}
-
-.carousel-arrow:hover {
-  background: rgba(0,0,0,0.8);
-}
-
-.carousel-arrow.left {
-  left: 0.5rem;
-}
-
-.carousel-arrow.right {
-  right: 0.5rem;
+  display: none;
 }
 
 .progress-wrapper {
@@ -158,26 +142,6 @@
   width: 100%;
   max-width: 1200px;
   margin-top: 1rem;
-}
-
-.movie-card {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.movie-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-}
-
-.movie-poster {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 .movie-info {
@@ -264,27 +228,6 @@
   width: 100%;
 }
 
-.tmdb-result-card {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-align: center;
-  padding: 0.5rem;
-}
-
-.tmdb-result-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-.tmdb-result-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
 .tmdb-result-card h4 {
   margin: 0.5rem 0 0.25rem;
   font-size: 1rem;
@@ -301,7 +244,6 @@
   font-size: 1rem;
   padding: 1rem;
 }
-
 
 .theme-icon-toggle {
   position: absolute;

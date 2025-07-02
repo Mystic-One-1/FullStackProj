@@ -144,19 +144,15 @@ const DashboardUser = () => {
     }
   }, [currentIdx, featured]);
 
-  const prevSlide = () => setCurrentIdx(i => (i - 1 + featured.length) % featured.length);
-  const nextSlide = () => setCurrentIdx(i => (i + 1) % featured.length);
-
   return (
     <div className="home-container">
       <Navbar />
 
-      {/* 🌙 Theme toggle icon (top-right corner) */}
       <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
         <ThemeToggle />
       </div>
 
-      <h2>🎬 {user ? `Welcome, ${user.name}!` : 'Movie Catalog'}</h2>
+      <h2 className="sticky-heading">🎬 {user ? `Welcome, ${user.name}!` : 'Movie Catalog'}</h2>
 
       <input
         type="text"
@@ -166,7 +162,6 @@ const DashboardUser = () => {
         className="tmdb-search-input"
       />
 
-      {/* Search Results */}
       {searchTerm && (
         <div className="tmdb-results">
           {filteredMovies.length > 0 ? (
@@ -213,10 +208,8 @@ const DashboardUser = () => {
         <p>No movies available. Admins can add some!</p>
       )}
 
-      {/* Featured Carousel */}
       {!searchTerm && !loading && featured.length > 0 && (
         <div className="featured-carousel-container">
-          <button className="carousel-arrow left" onClick={prevSlide}>‹</button>
           <div className="featured-carousel" ref={carouselRef}>
             {featured.map((m) => {
               const isInWatchlist = watchlistMovies.has(m._id);
@@ -241,11 +234,9 @@ const DashboardUser = () => {
               );
             })}
           </div>
-          <button className="carousel-arrow right" onClick={nextSlide}>›</button>
         </div>
       )}
 
-      {/* All Movies */}
       {!searchTerm && (
         <div className="movie-row">
           {movies.map((movie) => {

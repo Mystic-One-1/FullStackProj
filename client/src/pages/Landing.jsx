@@ -5,17 +5,12 @@ import { Link } from 'react-router-dom';
 import './Landing.css';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
+import bgImage from '../assets/landing_bg.jpg';
 
 const Landing = () => {
   const { user, logout } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  const trendingMovies = [
-    { title: 'Stranger Things', poster: 'https://i.imgur.com/ZXBtVw7.jpg' },
-    { title: 'Breaking Bad', poster: 'https://i.imgur.com/ZmC1f5N.jpg' },
-    { title: 'The Dark Knight', poster: 'https://i.imgur.com/3fJ1P48.jpg' },
-  ];
 
   const handleToggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
@@ -39,7 +34,15 @@ const Landing = () => {
   return (
     <>
       <Navbar />
-      <div className="landing">
+      <div
+        className="landing"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <h1 className="title">
           🎬 Welcome to <span className="highlight">StreamVerse</span>
         </h1>
@@ -65,16 +68,6 @@ const Landing = () => {
               )}
             </div>
           )}
-        </div>
-
-        <h2 className="section-title">🔥 Trending Now</h2>
-        <div className="movie-grid">
-          {trendingMovies.map((movie, i) => (
-            <div key={i} className="movie-card">
-              <img src={movie.poster} alt={movie.title} />
-              <p>{movie.title}</p>
-            </div>
-          ))}
         </div>
       </div>
     </>

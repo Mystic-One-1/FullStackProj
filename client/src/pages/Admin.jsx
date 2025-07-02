@@ -17,9 +17,9 @@ const Admin = () => {
         <div className="admin-card" onClick={() => navigate('/admin/movies')}>
           🎞️ Manage Movies
         </div>
-        <div className="admin-card" onClick={() => navigate('/admin/activity')}>
+        {/* <div className="admin-card" onClick={() => navigate('/admin/activity')}>
           📊 Recent Activity
-        </div>
+        </div> */}
         <div className="admin-card" onClick={() => navigate('/')}>
           🏠 Go to Homepage
         </div>
